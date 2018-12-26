@@ -1,5 +1,6 @@
 from flask import Flask
 from util import is_isbn_or_key
+from douban_api import DOUBANAPI
 
 app = Flask(__name__)
 # 加载配置文件
@@ -19,8 +20,14 @@ def search(q,page):
     page 页码
     """
     isbn_or_key = is_isbn_or_key(q)
-    print(isbn_or_key)
+    data = {}
+    if isbn_or_key == 'isbn':
+        data = DOUBANAPI.search_isbn(q)
+    else:
+        data = DOUBANAPI.search_keyword(q)
+    print(data)
     return "search"
+
 
 app.run(host=app.config['HOST'],debug=app.config['DEBUG'],port=app.config['PORT'])
 
