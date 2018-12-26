@@ -1,33 +1,7 @@
-from flask import Flask
-from util import is_isbn_or_key
-from douban_api import DOUBANAPI
-
-app = Flask(__name__)
-# 加载配置文件
-app.config.from_object('config')
+from app import create_app
 
 
-@app.route('/hello')
-def hello():
-    return "hello world"
-
-
-# 图书搜索
-@app.route('/book/search/<q>/<page>')
-def search(q,page):
-    """
-    q 搜索关键字
-    page 页码
-    """
-    isbn_or_key = is_isbn_or_key(q)
-    data = {}
-    if isbn_or_key == 'isbn':
-        data = DOUBANAPI.search_isbn(q)
-    else:
-        data = DOUBANAPI.search_keyword(q)
-    print(data)
-    return "search"
-
-
-app.run(host=app.config['HOST'],debug=app.config['DEBUG'],port=app.config['PORT'])
+app = create_app()
+if __name__ == "__main__":
+    app.run(host=app.config['HOST'], debug=app.config['DEBUG'], port=app.config['PORT'])
 
