@@ -16,3 +16,9 @@ def is_isbn_or_key(word):
     if '-' in word and len(shout_word) == 10 and shout_word.isdigit():
         res = 'isbn'
     return res
+
+
+# 分页计算
+def limit(size, p):
+        return (p - 1) * size
+

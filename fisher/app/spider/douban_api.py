@@ -1,5 +1,7 @@
 # 调用豆瓣api
-from  https import HTTPS
+from app.libs.https import HTTPS
+from flask import current_app
+from app.libs.util import limit
 
 
 class DOUBANAPI:
@@ -17,7 +19,7 @@ class DOUBANAPI:
         return HTTPS.get(url)
 
     @classmethod
-    def search_keyword(cls, keyword, count=15, start=0):
-        url = cls.keyword_url.format(keyword, count, start)
+    def search_keyword(cls, keyword, page):
+        url = cls.keyword_url.format(keyword, current_app.config['PAGESIZE'], limit(current_app.config['PAGESIZE'], page))
         return HTTPS.get(url)
 
